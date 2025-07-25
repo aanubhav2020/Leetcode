@@ -1,0 +1,31 @@
+import java.util.*;
+
+class Solution {
+    public int maxSum(int[] nums) {
+        // 1) Find the maximum element in nums
+        int mx = Integer.MIN_VALUE;
+        for (int x : nums) {
+            mx = Math.max(mx, x);
+        }
+        //  If all elements are <= 0, picking the largest (least negative or zero) is optimal
+        if (mx <= 0) {
+            return mx;
+        }
+        
+        // 2) Otherwise, sum each distinct positive element only once
+        //    We know nums[i] ∈ [-100,100], so offset by +100 to index into [0..200]
+        boolean[] seen = new boolean[201];
+        int sum = 0;
+        for (int x : nums) {
+            if (x > 0) {
+                int idx = x + 100;
+                if (!seen[idx]) {
+                    sum += x;
+                    seen[idx] = true;
+                }
+            }
+        }
+        
+        return sum;
+    }
+}
